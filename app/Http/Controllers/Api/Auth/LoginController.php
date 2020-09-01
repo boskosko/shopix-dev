@@ -28,6 +28,7 @@ class LoginController extends Controller
        }
 
        return response()->json(['token' => $newToken]);
+
    }
 
     public function logout()
@@ -35,6 +36,7 @@ class LoginController extends Controller
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
+
     }
 
 }
