@@ -120,9 +120,7 @@ class TeamController extends Controller
 // query za timove promjeniti kada se ubaci api za biranje timova prijavljenog kosinika -> $team_id..
     public function addPlayer(Request $request)
     {
-
         $user = $this->authUser();
-
         $player = Player::create([
             'player_id' => $request->player_id,
             'team_id' => $request->team_id,
