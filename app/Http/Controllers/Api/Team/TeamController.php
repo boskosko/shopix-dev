@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Team;
 
+use App\Games;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Player;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 
@@ -120,8 +122,8 @@ class TeamController extends Controller
 // query za timove promjeniti kada se ubaci api za biranje timova prijavljenog kosinika -> $team_id..
     public function addPlayer(Request $request)
     {
-//        $user = $this->authUser();
-        Player::create([
+        $user = $this->authUser();
+        $player = Player::create([
             'player_id' => $request->player_id,
             'team_id' => $request->team_id,
         ]);
