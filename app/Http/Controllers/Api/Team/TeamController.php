@@ -134,7 +134,7 @@ class TeamController extends Controller
 
     public function teamRequests(){
         $user_id = $this->authUser()->id;
-        $teamRequests = DB::table('players')->where(['player_id'=>$user_id])->get();
+        $teamRequests = DB::table('players')->where(['player_id'=>$user_id, 'accept' => 0])->get();
 
         return response()->json(['data' => $teamRequests], 200);
 
