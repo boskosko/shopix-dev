@@ -22,23 +22,50 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('example', 'HomeController@index');
 
-//reg
+/*
+REG
+*/
 Route::resource('users', 'User\UserController', ['except' => ['create', 'edit']]);
-//login
+/*
+Login
+*/
 Route::post('/login','Api\Auth\LoginController@login');
-//logout
-Route::post('/logout','Api\Auth\LoginController@logout');
-//inf o korisniku
-Route::get('self', 'UserController@self')->name('self');
-//inf o timovima korsnika
-Route::get('selfteam', 'Api\Team\TeamController@self');
-//svi timovi - kreiranje timova
-Route::resource('/teams', 'Api\Team\TeamController');
-//auth refresh tokena
+
+/*
+Logout
+*/Route::post('/logout','Api\Auth\LoginController@logout');
+
+/*
+Self info-user info
+*/Route::get('self', 'UserController@self')->name('self');
+
+/*
+Self teams
+*/Route::get('selfteam', 'Api\Team\TeamController@self');
+
+
+
+/*
+Auth refresh token
+*/
 Route::get('refresh', 'Api\Auth\LoginController@refresh');
-//pc games - kategorije
+
+/*
+Games
+*/
 Route::get('games', 'Api\Games\GamesController@index');
 
 
-//test
+/*
+ * Add players to team
+ */
 Route::match(['post'],'teams/add-player','Api\Team\TeamController@addPlayer');
+Route::get('teams/team-requests','Api\Team\TeamController@teamRequests');
+Route::get('teams/accept-team-request','Api\Team\TeamController@acceptTeamRequest');
+
+
+
+/*
+Teams
+*/
+Route::resource('/teams', 'Api\Team\TeamController');

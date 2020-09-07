@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Api\Team;
 
-use App\Games;
 use App\Http\Controllers\Api\Controller;
 use Illuminate\Http\Request;
 use App\Team;
 use App\Player;
-use App\User;
+use Illuminate\Support\Facades\DB;
+
 
 class TeamController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -120,13 +120,31 @@ class TeamController extends Controller
 // query za timove promjeniti kada se ubaci api za biranje timova prijavljenog kosinika -> $team_id..
     public function addPlayer(Request $request)
     {
-        $user = $this->authUser();
-        $player = Player::create([
+//        $user = $this->authUser();
+        Player::create([
             'player_id' => $request->player_id,
             'team_id' => $request->team_id,
         ]);
 
 
         return response()->json(['data' => 'Poziv za ulazak u tim je poslan.'], 200);
+    }
+
+    public function teamRequests(){
+        $user_id = $this->authUser()->id;
+        $teamRequests = DB::table('players')->where(['player_id'=>$user_id])->get();
+
+        return response()->json(['data' => $teamRequests], 200);
+
+    }
+
+    public function acceptTeamRequest(Request $request)
+    {
+        $team_id = $request->team_id;
+        $receiver_id =$this->authUser()->id;
+        Player::where(['team_id' => $team_id, 'player_id' => $receiver_id])->update(['accept' => 1]);
+
+        return response()->json(['data' => 'Poziv u tim je prihvacen.'], 200);
+
     }
 }
