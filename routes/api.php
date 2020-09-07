@@ -42,8 +42,6 @@ Self info-user info
 Self teams
 */Route::get('selfteam', 'Api\Team\TeamController@self');
 
-
-
 /*
 Auth refresh token
 */
@@ -54,14 +52,14 @@ Games
 */
 Route::get('games', 'Api\Games\GamesController@index');
 
-
 /*
  * Add players to team
  */
 Route::match(['post'],'teams/add-player','Api\Team\TeamController@addPlayer');
 Route::get('teams/team-requests','Api\Team\TeamController@teamRequests');
 Route::post('teams/accept-team-request','Api\Team\TeamController@acceptTeamRequest');
-
+Route::post('teams/reject-team-request','Api\Team\TeamController@rejectTeamRequest');
+Route::get('/teams/players','Api\Team\TeamController@players');
 
 
 /*

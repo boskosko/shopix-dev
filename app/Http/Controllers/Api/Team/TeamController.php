@@ -147,6 +147,46 @@ class TeamController extends Controller
         if(Player::where(['team_id' => $team_id, 'player_id' => $receiver_id])->update(['accept' => 1])) {
             return response()->json(['data' => 'Poziv u tim je prihvacen.'], 200);
         }
-        return "sdad";
+        return "test ne radidadgsg";
     }
+
+    public function rejectTeamRequest(Request $request)
+    {
+        $team_id = $request->team_id;
+        $receiver_id =$this->authUser()->id;
+        Player::where(['team_id' => $team_id, 'player_id' => $receiver_id])->delete();
+        Player::where(['player_id' => $team_id, 'team_id' => $receiver_id])->delete();
+        return response()->json(['data' => 'Poziv u tim je odbijen.'], 200);
+
+    }
+// Igraci u timovima
+    public function players()
+    {
+//        $user_id = $this->authUser()->id;
+        //sql upit koji treba pozvati kako trebaa :D:D
+//        $sql = "SELECT users.name FROM players JOIN users on players.player_id = users.id JOIN teams ON players.team_id = teams.id WHERE team_id = 11";
+
+        $sql2 = Player::select('players.player_id')->join('users', 'users.id', '=', 'players.player_id')->join('teams', 'teams.id', '=', 'players.team_id')
+            ->where('players.team_id', '==', 11)->first();
+//        $playersCount = Player::where(['player_id'=>$user_id, 'accept'=>1])->count();
+//        if($playersCount>0){
+//            $players = Player::where(['player_id' => $user_id, 'accept'=>1]);
+//        } else{
+//            $players = Player::where(['team_id' => $user_id, 'accept'=>1]);
+//        }
+//        $players = json_decode(json_encode($players));
+        return response()->json(['data' => $sql2], 200);
+
+    }
+
+// Napraviti api za uklananje igraca iz tima
+//    public function removePlayer(Request $request)
+//    {
+//        $team_id = $request->team_id;
+//        $receiver_id =$this->authUser()->id;
+//        Player::where(['team_id' => $team_id, 'player_id' => $receiver_id])->delete();
+//        Player::where(['player_id' => $team_id, 'team_id' => $receiver_id])->delete();
+//        return response()->json(['data' => 'Poziv u tim je odbijen.'], 200);
+//
+//    }
 }
