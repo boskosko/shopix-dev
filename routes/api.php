@@ -61,7 +61,7 @@ Route::get('games', 'Api\Games\GamesController@index');
  */
 Route::match(['post'],'teams/add-player','Api\Team\TeamController@addPlayer');
 Route::get('teams/team-requests','Api\Team\TeamController@teamRequests');
-Route::get('teams/accept-team-request','Api\Team\TeamController@acceptTeamRequest');
+Route::post('teams/accept-team-request','Api\Team\TeamController@acceptTeamRequest');
 
 
 

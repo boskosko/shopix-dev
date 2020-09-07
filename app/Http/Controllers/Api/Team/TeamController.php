@@ -134,7 +134,7 @@ class TeamController extends Controller
 
     public function teamRequests(){
         $user_id = $this->authUser()->id;
-        $teamRequests = DB::table('players')->where(['player_id'=>$user_id, 'accept' => 0])->get();
+        $teamRequests = DB::table('players')->where(['player_id'=>$user_id, 'accept'=> 0])->get();
 
         return response()->json(['data' => $teamRequests], 200);
 
@@ -144,9 +144,9 @@ class TeamController extends Controller
     {
         $team_id = $request->team_id;
         $receiver_id =$this->authUser()->id;
-        Player::where(['team_id' => $team_id, 'player_id' => $receiver_id])->update(['accept' => 1]);
-
-        return response()->json(['data' => 'Poziv u tim je prihvacen.'], 200);
-
+        if(Player::where(['team_id' => $team_id, 'player_id' => $receiver_id])->update(['accept' => 1])) {
+            return response()->json(['data' => 'Poziv u tim je prihvacen.'], 200);
+        }
+        return "sdad";
     }
 }
